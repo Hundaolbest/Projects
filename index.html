@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Pendulum Wave</title>
+    <title>Lab Assignment: 3D Pendulum Wave Dynamics</title>
     <style>
         :root {
             --bg-color: #050608;
             --panel-bg: rgba(15, 18, 24, 0.95);
-            --accent-cyan: #0099ff;
-            --accent-blue: #0066ff;
+            --accent-cyan: #F15A24;
+            --accent-blue: #ff7300;
             --glass-border: rgba(255, 255, 255, 0.1);
             --text-main: #e0e6ed;
             --text-dim: #94a3b8;
@@ -34,7 +34,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #000;
+            background: #02272F;
             border-bottom: 1px solid var(--glass-border);
             z-index: 100;
         }
@@ -58,7 +58,7 @@
 
         /* --- Environment customization --- */
         .main-stage {
-            background: #0d1016;
+            background: #CFDFDC;
             flex: 1;
             position: relative;
             overflow: hidden;
@@ -188,8 +188,8 @@
             cursor: pointer;
             transition: 0.3s;
         }
-        button:hover { background: #2a2e38; border-color: var(--accent-cyan); }
-        button.active { background: var(--accent-cyan); color: #000; font-weight: 800; }
+        button:hover { background: #2a2e38; color:#fff;border-color: var(--accent-cyan); }
+        button.active { background: var(--accent-cyan); color: #ffffff; font-weight: 800; }
 
         .toggle-analysis {
             position: absolute;
@@ -197,14 +197,14 @@
             right: 25px;
             z-index: 150;
             background: var(--accent-cyan);
-            color: #000;
+            color: #02272F;
             border: none;
             padding: 12px 24px;
             border-radius: 8px;
             font-weight: 800;
             font-size: 0.75rem;
             cursor: pointer;
-            box-shadow: 0 5px 20px rgba(0, 242, 255, 0.3);
+            box-shadow: 0 5px 20px rgba(255, 102, 0, 0.3);
         }
 
     </style>
@@ -340,7 +340,7 @@
             pendulums.push({
                 vLen: length * 160, 
                 realLen: length,
-                color: `hsl(${190 + (i * 4)}, 90%, 55%)`,
+                color: `hsl(${16 + (i * 0)}, 90%, 55%)`,
                 theta: 0
             });
         }
@@ -371,7 +371,7 @@
         let drawStack = [];
 
         // 1. Environment: Floor Laser Grid
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.strokeStyle = 'rgba(2, 8, 2, 0.05)';
         ctx.lineWidth = 1;
         for(let i = -10; i <= 10; i++) {
             let p1 = project(i * 100, 500, -600);
@@ -384,11 +384,11 @@
         }
 
         // 2. Main Lab Rig (Pillars + Rail)
-        const rigColor = '#1a1c22';
+        const rigColor = '#02272F';
         const p1_t = project(-10, beamY, -railZ);
-        const p1_b = project(-10, 500, -railZ);
+        const p1_b = project(-10, 150, -railZ);
         const p2_t = project(-10, beamY, railZ);
-        const p2_b = project(-10, 500, railZ);
+        const p2_b = project(-10, 150, railZ);
         const rS = project(0, beamY, -railZ);
         const rE = project(0, beamY, railZ);
 
@@ -399,7 +399,7 @@
         ctx.beginPath(); ctx.moveTo(p2_t.x, p2_t.y); ctx.lineTo(p2_b.x, p2_b.y); ctx.stroke();
         
         // Metal Rail
-        ctx.strokeStyle = '#2d333d';
+        ctx.strokeStyle = '#02272F';
         ctx.lineWidth = 12 * rS.scale;
         ctx.beginPath(); ctx.moveTo(rS.x, rS.y); ctx.lineTo(rE.x, rE.y); ctx.stroke();
 
@@ -425,14 +425,14 @@
         drawStack.sort((a, b) => b.depth - a.depth);
         drawStack.forEach(item => {
             // String
-            ctx.strokeStyle = item.idx === state.selected ? '#fff' : 'rgba(100,200,255,0.15)';
+            ctx.strokeStyle = item.idx === state.selected ? '#ddd' : 'rgba(1,2,2,0.95)';
             ctx.lineWidth = item.idx === state.selected ? 2 : 1;
             ctx.beginPath(); ctx.moveTo(item.anchor.x, item.anchor.y); ctx.lineTo(item.bob.x, item.bob.y); ctx.stroke();
 
             // Bob Shading (Sphere Simulation)
             const r = 12 * item.bob.scale;
             const grad = ctx.createRadialGradient(item.bob.x - r/3, item.bob.y - r/3, r/5, item.bob.x, item.bob.y, r);
-            grad.addColorStop(0, '#fff'); grad.addColorStop(0.3, item.color); grad.addColorStop(1, '#000');
+            grad.addColorStop(0, '#d68e74'); grad.addColorStop(0.3, item.color); grad.addColorStop(1, '#6b4131');
             ctx.fillStyle = grad;
             ctx.beginPath(); ctx.arc(item.bob.x, item.bob.y, r, 0, Math.PI*2); ctx.fill();
 
@@ -548,5 +548,4 @@
     render();
 </script>
 </body>
-
 </html>
